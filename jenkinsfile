@@ -1,15 +1,31 @@
-#!/usr/bin/env groovy
+# Criar Bucket S3 - job Jenkins
 pipeline {
-    agent none
+    agent any
+
     stages {
-        stage('Build') {
-            agent {
-                docker { image 'mave' }
-            }
+        stage('Checkout') {
             steps {
-                sh "mvn package -Dmaven.test.skip=true"
+                checkout scm
             }
+        }
+
+        stage ("terraform init") {
+            steps {
+                sh ("terraform init -reconfigure")
+            }
+        }
+
+        stage ("plan") {
+            steps {
+                sh ('terraform plan')
+            }
+        }
+
+        stage (" Action") {
+            steps {
+                echo "Terraform action is --> ${action}"
+                sh ('terraform ${action} --auto-approve')
+           }
         }
     }
 }
-
