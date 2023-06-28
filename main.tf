@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "Exemplo" {
-  bucket = "dattos-Novo-s3"
+  bucket = "dattos-New-01"
   
   tags = {
     Name	= "Dattos"
